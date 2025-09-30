@@ -3,7 +3,6 @@
 [![HACS][hacs-shield]](https://github.com/hacs/integration)
 
 모바일 유튜브앱, Apple TV, Android TV, Google Nest, Fully Browser, HASS.Agent 등 **모든 미디어 플레이어**에서 YouTube 재생 시 자동으로 실제 시청 기록에서 정보를 가져오는 Home Assistant 통합 컴포넌트입니다.
-육아에 도움이 되고자 하는 마음에 개발 하였습니다. 아이가 무슨 영상을 보고 있는지, 어떤 영상들을 얼마나 많이 봤는지 알 수 있습니다.
 
 [hacs-shield]: https://img.shields.io/badge/HACS-Custom-red.svg
 
@@ -12,14 +11,12 @@
 ## 스크린샷
 
 <p align="center">
-  <img src="images/showcase1.png" width="45%" alt="Showcase1" />
+  <img src="https://raw.githubusercontent.com/redchupa/youtube_current_watching/main/images/showcase1.png" width="45%" alt="Showcase1" />
+  <img src="https://raw.githubusercontent.com/redchupa/youtube_current_watching/main/images/showcase2.png" width="45%" alt="Showcase2" />
 </p>
 <p align="center">
-  <img src="images/showcase2.png" width="45%" alt="Showcase2" />
-</p>
-<p align="center">
-  <img src="images/showcase3.png" width="45%" alt="Showcase3" />
-  <img src="images/showcase4.png" width="45%" alt="Showcase4" />
+  <img src="https://raw.githubusercontent.com/redchupa/youtube_current_watching/main/images/showcase3.png" width="45%" alt="Showcase3" />
+  <img src="https://raw.githubusercontent.com/redchupa/youtube_current_watching/main/images/showcase4.png" width="45%" alt="Showcase4" />
 </p>
 
 ---
@@ -482,18 +479,21 @@ A: 일반적으로 필요하지 않습니다. 대부분의 기기에서 자동 �
 
 ## 지원되는 미디어 플레이어
 
--  Apple TV
--  Android TV / Google TV
--  Google Nest Hub / Nest Hub Max
--  Amazon Fire TV
--  Chromecast
--  Fully Kiosk Browser
--  HASS.Agent (PC)
--  모바일 기기 (YouTube 앱)
--  기타 YouTube를 지원하는 모든 미디어 플레이어
+- ✅ Apple TV
+- ✅ Android TV / Google TV
+- ✅ Google Nest Hub / Nest Hub Max
+- ✅ Amazon Fire TV
+- ✅ Chromecast
+- ✅ Fully Kiosk Browser
+- ✅ HASS.Agent (PC)
+- ✅ 모바일 기기 (YouTube 앱)
+- ✅ 기타 YouTube를 지원하는 모든 미디어 플레이어
 
 ---
 
+## 기여하기
+
+이슈와 풀 리퀘스트는 언제나 환영합니다.
 
 ### 버그 리포트
 
@@ -528,12 +528,8 @@ MIT License
 
 | TOSS로 기부하기 | Paypal로 기부하기 |
 |----------------|------------------|
-| <img src="images/toss-donation.png" width="200" alt="TOSS 후원하기" /> | <a href="https://www.paypal.com/ncp/payment/HG9KNC262PLAC"><img src="images/paypal-donation.png" width="200" alt="PayPal 후원하기" /></a> |
+| <img src="https://raw.githubusercontent.com/redchupa/youtube_current_watching/main/images/toss-donation.png" width="200" alt="TOSS 후원하기" /> | <a href="https://www.paypal.com/ncp/payment/HG9KNC262PLAC"><img src="https://raw.githubusercontent.com/redchupa/youtube_current_watching/main/images/paypal-donation.png" width="200" alt="PayPal 후원하기" /></a> |
 
 ---
 
 **즐거운 스마트홈 되세요!**
-
-
-
-
