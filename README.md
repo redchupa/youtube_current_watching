@@ -502,11 +502,6 @@ A: 일반적으로 필요하지 않습니다. 대부분의 기기에서 자동 �
 
 ---
 
-## 기여하기
-
-이슈와 풀 리퀘스트는 언제나 환영합니다.
-
----
 
 ### 버그 리포트
 
@@ -526,11 +521,6 @@ MIT License
 
 ---
 
-## 크레딧(도움을 주신분)
-
-원본 [AppDaemon YouTube Thumbnail](https://github.com/kkqq9320/Youtube-Thumbnail) 프로젝트를 참고하여 Home Assistant Integration으로 개발하였습니다.
-
----
 
 ## 후원하기
 
@@ -543,6 +533,7 @@ MIT License
 ---
 
 **즐거운 스마트홈 되세요!**
+
 
 
 
