@@ -1,0 +1,11 @@
+{
+  "domain": "youtube_current_watching",
+  "name": "Youtube Current Watching",
+  "codeowners": ["@redchupa"],
+  "config_flow": true,
+  "documentation": "https://github.com/redchupa/youtube_current_watching",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/redchupa/youtube_current_watching/issues",
+  "requirements": [],
+  "version": "1.0.0"
+}
