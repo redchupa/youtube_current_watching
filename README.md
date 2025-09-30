@@ -2,9 +2,8 @@
 
 [![HACS][hacs-shield]](https://github.com/hacs/integration)
 
-모바일 유튜브앱, Apple TV, Android TV, Google Nest, Fully Browser, HASS.Agent 등 
 
-YouTube 재생 시 자동으로 실제 시청 기록에서 정보를 가져오는 Home Assistant 통합 컴포넌트입니다.
+YouTube 영상 재생 시, 실제 시청 기록에서 정보를 가져오는 Home Assistant 통합 컴포넌트입니다.
 
 아이가 무슨 유튜브 영상을 보고 있는지, 
 
@@ -545,6 +544,7 @@ MIT License
 ---
 
 **즐거운 스마트홈 되세요!**
+
 
 
 
