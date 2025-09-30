@@ -1,0 +1,22 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "YouTube Current Watching Setup",
+        "description": "YouTube cookies file is required.\n\nHow to export cookies:\n1. Install Chrome extension 'Get cookies.txt LOCALLY'\n2. Allow the extension to run in incognito mode\n3. Visit YouTube.com and make sure you're logged in\n4. Click the extension icon and select 'Export All Cookies'\n5. Rename the downloaded file to youtube_cookies.txt\n6. Upload to Home Assistant's /config folder",
+        "data": {
+          "apple_tv_entity_id": "Select Media Player",
+          "cookies_path": "Cookies File Path"
+        }
+      }
+    },
+    "error": {
+      "cookies_not_found": "Cookies file not found. Please check the path.",
+      "no_media_players": "No media players found. Please set up Apple TV integration first.",
+      "unknown": "Unexpected error occurred. Please check the logs."
+    },
+    "abort": {
+      "already_configured": "This Apple TV is already configured."
+    }
+  }
+}
