@@ -493,11 +493,13 @@ A: 가장 최근에 유튜브 시청한 기록으로 변경되게 됩니다.
 
 ---
 
+
 ### 개발에 도움을 주신분 (참고한 프로젝트)
 
-[kkqq](https://github.com/kkqq9320/Youtube-Thumbnail)
+[KKQQ](https://github.com/kkqq9320/Youtube-Thumbnail)
 [matt8707](https://github.com/matt8707/youtube-watching)
 [claude.ai](https://claude.ai)
+
 
 ---
 ### 버그 리포트
@@ -530,6 +532,7 @@ MIT License
 ---
 
 **즐거운 스마트홈 되세요!**
+
 
 
 
