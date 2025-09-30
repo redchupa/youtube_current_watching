@@ -230,56 +230,50 @@ YouTube 쿠키의 유효성 상태를 모니터링합니다.
 
 ## 대시보드에 추가하기
 
-### Picture Entity 카드
 
-```yaml
-type: picture-entity
-entity: sensor.youtube_current_watching
-show_name: true
-show_state: true
-```
-
-### 상세 정보 카드
+### 상세 정보 카드 예시
 
 ```yaml
 type: entities
 title: 최근 시청한 YouTube
 entities:
-  - entity: sensor.youtube_current_watching
+  - entity: sensor.youtube_current_watching(your entity id)
     name: 제목
   - type: attribute
-    entity: sensor.youtube_current_watching
+    entity: sensor.youtube_current_watching(your entity id)
     attribute: channel
     name: 채널
   - type: attribute
-    entity: sensor.youtube_current_watching
+    entity: sensor.youtube_current_watching(your entity id)
     attribute: duration
     name: 길이
   - type: attribute
-    entity: sensor.youtube_current_watching
+    entity: sensor.youtube_current_watching(your entity id)
     attribute: url
     name: 링크
   - entity: binary_sensor.youtube_cookies_status
     name: 쿠키 상태
 ```
 
-### Markdown 카드
+### button-card 카드 예시
 
 ```yaml
-type: markdown
-content: |
-  ## 최근 시청
-  
-  **{{ state_attr('sensor.youtube_current_watching', 'title') }}**
-  
-  채널: {{ state_attr('sensor.youtube_current_watching', 'channel') }}
-  
-  길이: {{ state_attr('sensor.youtube_current_watching', 'duration') }}
-  
-  [YouTube에서 보기]({{ state_attr('sensor.youtube_current_watching', 'url') }})
+type: custom:button-card
+entity: sensor.youtube_watching
+show_entity_picture: true
+entity_picture: |
+  [[[ return states['sensor.youtube_watching'].attributes.thumbnail ]]]
+name: |
+  [[[ return states['sensor.youtube_watching'].attributes.title ]]]
+label: |
+  [[[ return states['sensor.youtube_watching'].attributes.channel ]]]
+show_label: true
+tap_action:
+  action: url
+  url_path: |
+    [[[ return states['sensor.youtube_watching'].attributes.url ]]]
 ```
 
----
 
 ## 작동 방식
 
@@ -530,6 +524,7 @@ MIT License
 ---
 
 **즐거운 스마트홈 되세요!**
+
 
 
 
