@@ -11,12 +11,12 @@
 ## 스크린샷
 
 <p align="center">
-  <img src="https://github.com/redchupa/youtube-current-watching/images/showcase1.png?raw=true" width="45%" alt="Showcase1" />
-  <img src="https://github.com/redchupa/youtube-current-watching/images/showcase2.png?raw=true" width="45%" alt="Showcase2" />
+  <img src="images/showcase1.png" width="45%" alt="Showcase1" />
+  <img src="images/showcase2.png" width="45%" alt="Showcase2" />
 </p>
 <p align="center">
-  <img src="https://github.com/redchupa/youtube-current-watching/images/showcase3.png?raw=true" width="45%" alt="Showcase3" />
-  <img src="https://github.com/redchupa/youtube-current-watching/images/showcase4.png?raw=true" width="45%" alt="Showcase4" />
+  <img src="images/showcase3.png" width="45%" alt="Showcase3" />
+  <img src="images/showcase4.png" width="45%" alt="Showcase4" />
 </p>
 
 ---
@@ -160,8 +160,9 @@ custom_components/
 1. **설정** → **기기 및 서비스** → **통합 추가** 버튼 클릭
 2. **"YouTube Current Watching"** 검색
 3. 다음 정보 입력:
-   - **Apple TV**: YouTube를 시청하는 Apple TV 선택
+   - **미디어 플레이어**: YouTube를 시청하는 미디어 플레이어 선택
    - **쿠키 경로**: `/config/youtube_cookies.txt` (기본값)
+   - **항상 추적 모드**: OFF (기본값, 필요시에만 ON)
 4. **제출** 클릭
 
 ---
@@ -175,7 +176,7 @@ custom_components/
 
 #### 테스트하기
 
-1. Apple TV 또는 모바일 기기에서 **YouTube 앱** 실행
+1. 미디어 플레이어에서 **YouTube 앱** 실행
 2. 아무 영상 재생
 3. Home Assistant → **개발자 도구** → **상태**
 4. `sensor.youtube_current_watching` 검색
@@ -273,7 +274,7 @@ content: |
 
 ```mermaid
 graph LR
-    A[Apple TV] -->|YouTube 재생| B[Integration]
+    A[미디어 플레이어] -->|YouTube 재생| B[Integration]
     B -->|쿠키 사용| C[YouTube<br/>시청 기록]
     C -->|최신 영상| D[센서 업데이트]
     D -->|표시| E[대시보드]
@@ -281,7 +282,7 @@ graph LR
 
 **동작 과정**:
 
-1. Apple TV에서 YouTube 앱 재생 감지 (`app_id == "com.google.ios.youtube"`)
+1. 미디어 플레이어에서 YouTube 재생 감지 (5가지 방법)
 2. `media_title` 변경 감지
 3. YouTube 시청 기록 페이지 스크래핑 (쿠키 인증 사용)
 4. `ytInitialData` JSON 파싱
@@ -321,10 +322,9 @@ graph LR
 ### 센서가 업데이트되지 않는 경우
 
 **확인 사항**:
-- Apple TV 통합이 활성화되어 있나요?
-- 올바른 Apple TV를 선택했나요?
-- YouTube 앱 ID가 `com.google.ios.youtube`인가요?
-- 미디어 플레이어의 `app_id` attribute가 존재하나요?
+- 미디어 플레이어 통합이 활성화되어 있나요?
+- 올바른 미디어 플레이어를 선택했나요?
+- 미디어 플레이어의 `app_id`, `app_name`, `source` 속성이 존재하나요?
 
 **디버깅 활성화**:
 
@@ -441,7 +441,7 @@ automation:
 
 - **Home Assistant**: 2023.1 이상
 - **Python**: 3.10 이상 (Home Assistant 내장)
-- **필수 통합**: Apple TV 또는 기타 미디어 플레이어
+- **필수 통합**: 미디어 플레이어 (Apple TV, Android TV, Chromecast 등)
 
 ### 의존성
 
@@ -449,7 +449,7 @@ Python 표준 라이브러리만 사용:
 - `http.cookiejar.MozillaCookieJar` - 쿠키 파일 파싱
 - `re` - 정규표현식 처리
 - `json` - JSON 데이터 파싱
-- `urllib` - HTTP 요청
+- `requests` - HTTP 요청
 
 ---
 
@@ -459,9 +459,9 @@ Python 표준 라이브러리만 사용:
 
 A: 일반적으로 2-3개월마다 갱신하면 충분합니다. `binary_sensor.youtube_cookies_status`가 OFF로 변경되면 갱신이 필요합니다.
 
-**Q: 여러 Apple TV가 있으면 어떻게 하나요?**
+**Q: 여러 미디어 플레이어가 있으면 어떻게 하나요?**
 
-A: 통합을 여러 번 추가하여 각 Apple TV마다 별도로 설정할 수 있습니다. 각 통합은 독립적으로 작동합니다.
+A: 통합을 여러 번 추가하여 각 미디어 플레이어마다 별도로 설정할 수 있습니다. 각 통합은 독립적으로 작동합니다.
 
 **Q: 쿠키가 계속 만료되는 이유는?**
 
@@ -471,9 +471,23 @@ A: YouTube 2단계 인증 또는 보안 설정을 확인하세요. 일부 계정
 
 A: YouTube Data API v3는 실제 시청 기록 접근을 제공하지 않습니다. 쿠키 방식이 가장 정확하고 제한 없는 방법입니다.
 
-**Q: 다른 미디어 플레이어도 지원하나요?**
+**Q: 항상 추적 모드는 언제 사용하나요?**
 
-A: 네, Apple TV 외에도 Android TV, Chromecast, Google Nest Hub, Fully Kiosk Browser, HASS.Agent 등 YouTube 앱을 지원하는 모든 미디어 플레이어를 사용할 수 있습니다.
+A: 일반적으로 필요하지 않습니다. 대부분의 기기에서 자동 감지가 잘 작동합니다. 특수한 경우에만 사용하세요.
+
+---
+
+## 지원되는 미디어 플레이어
+
+- ✅ Apple TV
+- ✅ Android TV / Google TV
+- ✅ Google Nest Hub / Nest Hub Max
+- ✅ Amazon Fire TV
+- ✅ Chromecast
+- ✅ Fully Kiosk Browser
+- ✅ HASS.Agent (PC)
+- ✅ 모바일 기기 (YouTube 앱)
+- ✅ 기타 YouTube를 지원하는 모든 미디어 플레이어
 
 ---
 
@@ -514,10 +528,8 @@ MIT License
 
 | TOSS로 기부하기 | Paypal로 기부하기 |
 |----------------|------------------|
-| <img src="https://github.com/redchupa/youtube-current-watching/images/toss-donation.png?raw=true" width="200" alt="TOSS 후원하기" /> | <a href="https://www.paypal.com/ncp/payment/HG9KNC262PLAC"><img src="https://github.com/redchupa/youtube-current-watching/images/paypal-donation.png?raw=true" width="200" alt="PayPal 후원하기" /></a> |
+| <img src="images/toss-donation.png" width="200" alt="TOSS 후원하기" /> | <a href="https://www.paypal.com/ncp/payment/HG9KNC262PLAC"><img src="images/paypal-donation.png" width="200" alt="PayPal 후원하기" /></a> |
 
 ---
 
-
 **즐거운 스마트홈 되세요!**
-
