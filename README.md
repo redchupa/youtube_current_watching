@@ -506,6 +506,8 @@ A: 일반적으로 필요하지 않습니다. 대부분의 기기에서 자동 �
 
 이슈와 풀 리퀘스트는 언제나 환영합니다.
 
+---
+
 ### 버그 리포트
 
 [이슈 작성하기](https://github.com/redchupa/youtube_current_watching/issues/new)
@@ -514,10 +516,7 @@ A: 일반적으로 필요하지 않습니다. 대부분의 기기에서 자동 �
 - Home Assistant 버전
 - 오류 로그
 - 재현 방법
-
-### 기능 제안
-
-새로운 기능이나 개선 사항을 제안해주세요.
+- 새로운 기능이나 개선 사항을 제안해주세요.
 
 ---
 
@@ -527,7 +526,7 @@ MIT License
 
 ---
 
-## 크레딧
+## 크레딧(도움을 주신분)
 
 원본 [AppDaemon YouTube Thumbnail](https://github.com/kkqq9320/Youtube-Thumbnail) 프로젝트를 참고하여 Home Assistant Integration으로 개발하였습니다.
 
@@ -544,6 +543,7 @@ MIT License
 ---
 
 **즐거운 스마트홈 되세요!**
+
 
 
 
