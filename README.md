@@ -11,8 +11,8 @@
 ## 스크린샷
 
 <p align="center">
-  <img src="images/showcase1.png" width="45%" alt="Showcase1" />
   <img src="images/showcase2.png" width="45%" alt="Showcase2" />
+  <img src="images/showcase1.png" width="45%" alt="Showcase1" />
 </p>
 <p align="center">
   <img src="images/showcase3.png" width="45%" alt="Showcase3" />
@@ -479,15 +479,15 @@ A: 일반적으로 필요하지 않습니다. 대부분의 기기에서 자동 �
 
 ## 지원되는 미디어 플레이어
 
-- ✅ Apple TV
-- ✅ Android TV / Google TV
-- ✅ Google Nest Hub / Nest Hub Max
-- ✅ Amazon Fire TV
-- ✅ Chromecast
-- ✅ Fully Kiosk Browser
-- ✅ HASS.Agent (PC)
-- ✅ 모바일 기기 (YouTube 앱)
-- ✅ 기타 YouTube를 지원하는 모든 미디어 플레이어
+-  Apple TV
+-  Android TV / Google TV
+-  Google Nest Hub / Nest Hub Max
+-  Amazon Fire TV
+-  Chromecast
+-  Fully Kiosk Browser
+-  HASS.Agent (PC)
+-  모바일 기기 (YouTube 앱)
+-  기타 YouTube를 지원하는 모든 미디어 플레이어
 
 ---
 
@@ -533,3 +533,4 @@ MIT License
 ---
 
 **즐거운 스마트홈 되세요!**
+
