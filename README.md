@@ -11,10 +11,10 @@
 ## 스크린샷
 
 <p align="center">
-  <img src="images/showcase2.png" width="45%" alt="Showcase2" />
+  <img src="images/showcase1.png" width="45%" alt="Showcase1" />
 </p>
 <p align="center">
-  <img src="images/showcase1.png" width="45%" alt="Showcase1" />
+  <img src="images/showcase2.png" width="45%" alt="Showcase2" />
 </p>
 <p align="center">
   <img src="images/showcase3.png" width="45%" alt="Showcase3" />
@@ -532,5 +532,6 @@ MIT License
 ---
 
 **즐거운 스마트홈 되세요!**
+
 
 
