@@ -1,0 +1,7 @@
+{
+  "name": "YouTube Current Watching",
+  "content_in_root": false,
+  "filename": "youtube_current_watching",
+  "render_readme": true,
+  "domains": ["sensor", "binary_sensor"]
+}
