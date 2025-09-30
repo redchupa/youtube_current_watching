@@ -12,6 +12,8 @@
 
 <p align="center">
   <img src="images/showcase2.png" width="45%" alt="Showcase2" />
+</p>
+<p align="center">
   <img src="images/showcase1.png" width="45%" alt="Showcase1" />
 </p>
 <p align="center">
@@ -491,9 +493,6 @@ A: 일반적으로 필요하지 않습니다. 대부분의 기기에서 자동 �
 
 ---
 
-## 기여하기
-
-이슈와 풀 리퀘스트는 언제나 환영합니다.
 
 ### 버그 리포트
 
@@ -533,4 +532,5 @@ MIT License
 ---
 
 **즐거운 스마트홈 되세요!**
+
 
