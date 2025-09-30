@@ -10,9 +10,8 @@
 
 ## 스크린샷
 
-<p align="center">
-  ![Showcase1](https://raw.githubusercontent.com/redchupa/youtube_current_watching/main/images/showcase1.png)
-</p>
+![Showcase1](https://raw.githubusercontent.com/redchupa/youtube_current_watching/main/images/showcase1.png)
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/redchupa/youtube_current_watching/main/images/showcase2.png" width="45%" alt="Showcase2" />
 </p>
@@ -535,5 +534,6 @@ MIT License
 ---
 
 **즐거운 스마트홈 되세요!**
+
 
 
