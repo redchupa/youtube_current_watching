@@ -11,12 +11,12 @@
 ## 스크린샷
 
 <p align="center">
-  <img src="https://github.com/redchupa/youtube-currnet-watching/blob/master/images/showcase1.png?raw=true" width="45%" alt="Showcase1" />
-  <img src="https://github.com/redchupa/youtube-currnet-watching/blob/master/images/showcase2.png?raw=true" width="45%" alt="Showcase2" />
+  <img src="https://github.com/redchupa/youtube-currnet-watching/images/showcase1.png?raw=true" width="45%" alt="Showcase1" />
+  <img src="https://github.com/redchupa/youtube-currnet-watching/images/showcase2.png?raw=true" width="45%" alt="Showcase2" />
 </p>
 <p align="center">
-  <img src="https://github.com/redchupa/youtube-currnet-watching/blob/master/images/showcase3.png?raw=true" width="45%" alt="Showcase3" />
-  <img src="https://github.com/redchupa/youtube-currnet-watching/blob/master/images/showcase4.png?raw=true" width="45%" alt="Showcase4" />
+  <img src="https://github.com/redchupa/youtube-currnet-watching/images/showcase3.png?raw=true" width="45%" alt="Showcase3" />
+  <img src="https://github.com/redchupa/youtube-currnet-watching/images/showcase4.png?raw=true" width="45%" alt="Showcase4" />
 </p>
 
 ---
@@ -514,8 +514,9 @@ MIT License
 
 | TOSS로 기부하기 | Paypal로 기부하기 |
 |----------------|------------------|
-| <img src="https://github.com/redchupa/youtube-currnet-watching/blob/master/images/toss-donation.png?raw=true" width="200" alt="TOSS 후원하기" /> | <a href="https://www.paypal.com/ncp/payment/HG9KNC262PLAC"><img src="https://github.com/redchupa/youtube-currnet-watching/blob/master/images/paypal-donation.png?raw=true" width="200" alt="PayPal 후원하기" /></a> |
+| <img src="https://github.com/redchupa/youtube-currnet-watching/images/toss-donation.png?raw=true" width="200" alt="TOSS 후원하기" /> | <a href="https://www.paypal.com/ncp/payment/HG9KNC262PLAC"><img src="https://github.com/redchupa/youtube-currnet-watching/images/paypal-donation.png?raw=true" width="200" alt="PayPal 후원하기" /></a> |
 
 ---
+
 
 **즐거운 스마트홈 되세요!**
