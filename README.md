@@ -83,7 +83,7 @@ YouTube Data API v3는 **실제 시청 기록 접근을 완벽하게 제공하�
 
 4. **파일 이름 변경**
    ```
-   youtube.com_cookies.txt → youtube_cookies.txt
+   cookies.txt → youtube_cookies.txt
    ```
 
 #### Firefox 사용자
@@ -530,6 +530,7 @@ MIT License
 ---
 
 **즐거운 스마트홈 되세요!**
+
 
 
 
