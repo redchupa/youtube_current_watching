@@ -1,0 +1,22 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Youtube Current Watching 설정",
+        "description": "유튜브 쿠키 파일이 필요합니다.\n\n쿠키 파일 저장 방법:\n1. Chrome 확장 프로그램 'Get cookies.txt LOCALLY' 설치\n2. 확장 프로그램을 시크릿모드에서도 사용 할 수 있도록 허용\n3. 확장 프로그램에서 Export All cookies로 쿠키 파일 다운로드\n4. 다운받은 cookies.txt 파일을 youtube_cookies.txt로 파일명 변경\n5. Home Assistant의 /config 폴더에 업로드",
+        "data": {
+          "apple_tv_entity_id": "미디어 플레이어 선택",
+          "cookies_path": "쿠키 파일 경로"
+        }
+      }
+    },
+    "error": {
+      "cookies_not_found": "쿠키 파일을 찾을 수 없습니다. 경로를 확인하세요.",
+      "no_media_players": "미디어 플레이어를 찾을 수 없습니다.",
+      "unknown": "예상치 못한 오류가 발생했습니다."
+    },
+    "abort": {
+      "already_configured": "이 Apple TV는 이미 설정되어 있습니다."
+    }
+  }
+}
