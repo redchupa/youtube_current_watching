@@ -21,6 +21,14 @@ ATTR_THUMBNAIL = "thumbnail"
 ATTR_DURATION = "duration"
 ATTR_URL = "url"
 
+# Subscriptions attributes
+ATTR_TOTAL_COUNT = "total_count"
+ATTR_CHANNELS = "channels"
+ATTR_CHANNEL_ID = "channel_id"
+ATTR_CHANNEL_NAME = "channel_name"
+ATTR_SUBSCRIBER_COUNT = "subscriber_count"
+ATTR_VIDEO_COUNT = "video_count"
+
 # Binary sensor
 ATTR_COOKIES_VALID = "cookies_valid"
 
