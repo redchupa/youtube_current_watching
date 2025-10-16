@@ -1,8 +1,8 @@
 # Contributing to YouTube Current Watching
 
-Thank you for considering contributing to this project! 🎉
+Thank you for considering contributing to this project! 
 
-## 🐛 Reporting Bugs
+##  Reporting Bugs
 
 When reporting bugs, please include:
 
@@ -57,11 +57,11 @@ If you're experiencing issues with video detection:
 5. Check `/config/youtube_history_debug.html`
 6. This file helps analyze YouTube page structure changes
 
-**⚠️ Important**: Do NOT share `youtube_history_debug.html` publicly as it may contain personal information!
+** Important**: Do NOT share `youtube_history_debug.html` publicly as it may contain personal information!
 
 ---
 
-## 💡 Suggesting Features
+##  Suggesting Features
 
 Feature suggestions are welcome! Please include:
 
@@ -200,7 +200,7 @@ refactor: Simplify video extraction logic
 
 ---
 
-## 🔍 Understanding the Code
+##  Understanding the Code
 
 ### Key Files
 
@@ -231,7 +231,7 @@ The integration tries all formats to maximize compatibility.
 
 ---
 
-## 📝 Documentation
+##  Documentation
 
 When contributing documentation:
 
@@ -242,7 +242,7 @@ When contributing documentation:
 
 ---
 
-## ❓ Questions?
+##  Questions?
 
 - **General Questions**: Create a discussion
 - **Bug Reports**: Create an issue
@@ -250,4 +250,4 @@ When contributing documentation:
 
 ---
 
-Thank you for contributing! 🙏
+Thank you for contributing! 
