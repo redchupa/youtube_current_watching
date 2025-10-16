@@ -17,7 +17,15 @@ PLATFORMS: list[Platform] = [Platform.SENSOR, Platform.BINARY_SENSOR]
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up YouTube Watching from a config entry."""
+    """Set up YouTube Watching from a config entry.
+    
+    Args:
+        hass: Home Assistant instance
+        entry: Config entry
+        
+    Returns:
+        True if setup was successful
+    """
     
     # Create coordinator
     coordinator = YouTubeDataCoordinator(
@@ -33,14 +41,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         "track_all": entry.data.get(CONF_TRACK_ALL, False),
     }
 
-    # Track all mode: 미디어 플레이어 상태와 관계없이 주기적으로 업데이트
+    # Track all mode: Update periodically regardless of media player state
     track_all_mode = entry.data.get(CONF_TRACK_ALL, False)
     
     if track_all_mode:
         _LOGGER.info("Track All mode enabled - will update regardless of media player state")
-        # 주기적 업데이트만 사용 (coordinator의 update_interval에 의존)
+        # Only use periodic updates (based on coordinator's update_interval)
     else:
-        # Set up state listener for media player (기존 방식)
+        # Set up state listener for media player (normal mode)
         @callback
         def media_player_state_changed(event):
             """Handle media player state changes."""
@@ -59,7 +67,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 source = new_state.attributes.get("source", "")
                 media_content_id = new_state.attributes.get("media_content_id", "")
                 
-                # Check if YouTube is playing (multiple methods)
+                # Check if YouTube is playing (multiple detection methods)
                 is_youtube = False
                 detection_method = None
                 
@@ -78,7 +86,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                     is_youtube = True
                     detection_method = f"source: {source}"
                 
-                # Method 4: Check media_content_id (URL 포함 가능)
+                # Method 4: Check media_content_id (may contain URL)
                 elif "youtube" in media_content_id.lower():
                     is_youtube = True
                     detection_method = f"media_content_id: {media_content_id}"
@@ -103,7 +111,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                         _LOGGER.debug("Same video playing, skipping refresh")
                 else:
                     _LOGGER.debug(
-                        "Not YouTube - app_id: %s, app_name: %s, source: %s, media_content_id: %s, media_title: %s",
+                        "Not YouTube - app_id: %s, app_name: %s, source: %s, "
+                        "media_content_id: %s, media_title: %s",
                         app_id, app_name, source, media_content_id, media_title
                     )
 
@@ -126,7 +135,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Unload a config entry."""
+    """Unload a config entry.
+    
+    Args:
+        hass: Home Assistant instance
+        entry: Config entry to unload
+        
+    Returns:
+        True if unload was successful
+    """
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
     
     if unload_ok:

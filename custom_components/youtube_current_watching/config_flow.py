@@ -30,7 +30,14 @@ class YouTubeCurrentWatchingConfigFlow(config_entries.ConfigFlow, domain=DOMAIN)
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
     ) -> FlowResult:
-        """Handle the initial step."""
+        """Handle the initial step.
+        
+        Args:
+            user_input: User input dictionary or None
+            
+        Returns:
+            FlowResult with form or entry creation
+        """
         errors = {}
 
         if user_input is not None:

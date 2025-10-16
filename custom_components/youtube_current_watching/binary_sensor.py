@@ -22,7 +22,13 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up YouTube Watching binary sensor from a config entry."""
+    """Set up YouTube Watching binary sensor from a config entry.
+    
+    Args:
+        hass: Home Assistant instance
+        entry: Config entry
+        async_add_entities: Callback to add entities
+    """
     coordinator = hass.data[DOMAIN][entry.entry_id]["coordinator"]
     
     async_add_entities([YouTubeCookiesStatusSensor(coordinator)], True)
@@ -34,7 +40,11 @@ class YouTubeCookiesStatusSensor(CoordinatorEntity, BinarySensorEntity):
     _attr_has_entity_name = True
 
     def __init__(self, coordinator) -> None:
-        """Initialize the binary sensor."""
+        """Initialize the binary sensor.
+        
+        Args:
+            coordinator: Data coordinator instance
+        """
         super().__init__(coordinator)
         self._attr_name = "Youtube Cookies Status"
         self._attr_unique_id = f"{DOMAIN}_cookies_status"
@@ -44,7 +54,25 @@ class YouTubeCookiesStatusSensor(CoordinatorEntity, BinarySensorEntity):
     @property
     def is_on(self) -> bool:
         """Return true if cookies are valid."""
+        # Cookies are valid if either subscription data or history data is successfully fetched
+        has_subscription_data = self.coordinator.subscriptions_data is not None
+        has_history_data = self.coordinator.data is not None
+        
+        # If either data source has data, cookies are valid
+        if has_subscription_data or has_history_data:
+            return True
+        
+        # Also check coordinator's cookies_valid flag
         return self.coordinator.cookies_valid
+
+    @property
+    def extra_state_attributes(self) -> dict:
+        """Return additional state attributes."""
+        return {
+            "has_history_data": self.coordinator.data is not None,
+            "has_subscription_data": self.coordinator.subscriptions_data is not None,
+            "cookies_valid_flag": self.coordinator.cookies_valid,
+        }
 
     @property
     def available(self) -> bool:
