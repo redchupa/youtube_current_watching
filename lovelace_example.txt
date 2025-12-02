@@ -39,7 +39,7 @@ cards:
               : '' ]]]
     styles:
       card:
-        - height: 250px
+        - height: 350px
         - padding: 0
       custom_fields:
         thumbnail:
@@ -78,7 +78,7 @@ cards:
               : '' ]]]
     styles:
       card:
-        - height: 250px
+        - height: 350px
         - padding: 0
       custom_fields:
         thumbnail:
@@ -117,7 +117,7 @@ cards:
               : '' ]]]
     styles:
       card:
-        - height: 250px
+        - height: 350px
         - padding: 0
       custom_fields:
         thumbnail:
