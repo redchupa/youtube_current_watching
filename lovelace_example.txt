@@ -1,0 +1,128 @@
+# Lovelace 대시보드에 추가할 카드 예시
+# simple-swipe-card 카드 사용
+
+type: custom:simple-swipe-card
+swipe_direction: horizontal
+loop_mode: none            # 필요에 따라 infinite 로 변경 가능
+card_spacing: 10
+show_pagination: true
+cards:
+  - type: custom:button-card
+    entity: sensor.youtube_recommended
+    show_entity_picture: true
+    entity_picture: |
+      [[[ const v = states['sensor.youtube_recommended'].attributes.videos;
+          return v && v.length > 0 ? v[0].thumbnail : '' ]]]
+    name: |
+      [[[ const v = states['sensor.youtube_recommended'].attributes.videos;
+          return v && v.length > 0 ? v[0].title : 'No video' ]]]
+    label: |
+      [[[ const v = states['sensor.youtube_recommended'].attributes.videos;
+          return v && v.length > 0 ? v[0].channel + ' | ' + v[0].duration : '' ]]]
+    tap_action:
+      action: url
+      url_path: |
+        [[[ const v = states['sensor.youtube_recommended'].attributes.videos;
+            return v && v.length > 0 ? v[0].url : '#' ]]]
+    styles:
+      card:
+        - height: 150px
+
+  - type: custom:button-card
+    entity: sensor.youtube_recommended
+    show_entity_picture: true
+    entity_picture: |
+      [[[ const v = states['sensor.youtube_recommended'].attributes.videos;
+          return v && v.length > 1 ? v[1].thumbnail : '' ]]]
+    name: |
+      [[[ const v = states['sensor.youtube_recommended'].attributes.videos;
+          return v && v.length > 1 ? v[1].title : 'No video' ]]]
+    label: |
+      [[[ const v = states['sensor.youtube_recommended'].attributes.videos;
+          return v && v.length > 1 ? v[1].channel + ' | ' + v[1].duration : '' ]]]
+    tap_action:
+      action: url
+      url_path: |
+        [[[ const v = states['sensor.youtube_recommended'].attributes.videos;
+            return v && v.length > 1 ? v[1].url : '#' ]]]
+    styles:
+      card:
+        - height: 150px
+
+  - type: custom:button-card
+    entity: sensor.youtube_recommended
+    show_entity_picture: true
+    entity_picture: |
+      [[[ const v = states['sensor.youtube_recommended'].attributes.videos;
+          return v && v.length > 2 ? v[2].thumbnail : '' ]]]
+    name: |
+      [[[ const v = states['sensor.youtube_recommended'].attributes.videos;
+          return v && v.length > 2 ? v[2].title : 'No video' ]]]
+    label: |
+      [[[ const v = states['sensor.youtube_recommended'].attributes.videos;
+          return v && v.length > 2 ? v[2].channel + ' | ' + v[2].duration : '' ]]]
+    tap_action:
+      action: url
+      url_path: |
+        [[[ const v = states['sensor.youtube_recommended'].attributes.videos;
+            return v && v.length > 2 ? v[2].url : '#' ]]]
+    styles:
+      card:
+        - height: 150px
+
+
+# Lovelace 대시보드에 추가할 카드 예시2
+
+type: custom:button-card
+entity: none
+show_name: false
+show_state: false
+styles:
+  card:
+    - width: 100%
+    - padding: 0
+  custom_fields:
+    video_player:
+      - width: 490px
+custom_fields:
+  video_player:
+    card: |
+      [[[
+        // sensor.youtube_recommended 엔티티에서 영상 목록 가져오기
+        const yt = states['sensor.youtube_recommended'];
+        const videos = yt?.attributes?.videos;
+
+        let videoId = '';
+
+        // 항상 첫 번째 영상만 사용
+        if (videos && videos.length > 0) {
+          const video = videos[0];
+
+          // video_id 필드가 있으면 그대로 사용
+          if (video.video_id) {
+            videoId = video.video_id;
+          }
+          // 없으면 URL에서 v= 뒤 값을 추출
+          else if (video.url?.includes('v=')) {
+            videoId = video.url.split('v=')[1]?.split('&')[0] || '';
+          }
+        }
+
+        // video_id가 없거나 비정상일 경우 표시
+        if (!videoId || videoId.length !== 11) {
+          return {
+            type: "markdown",
+            content: "첫 번째 추천 영상을 불러올 수 없습니다."
+          };
+        }
+
+        // 첫 번째 추천영상 표시
+        return {
+          type: "custom:youtube-video-card",
+          video_id: videoId,
+          autoplay: false,
+          controls: true
+        };
+      ]]]
+
+
