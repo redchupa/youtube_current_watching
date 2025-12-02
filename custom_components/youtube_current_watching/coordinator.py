@@ -32,6 +32,7 @@ class YouTubeDataCoordinator(DataUpdateCoordinator):
         self.cookies_path = cookies_path
         self.cookies_valid = False
         self.subscriptions_data = None
+        self.recommended_data = None  # 추천 영상 데이터 추가
 
         super().__init__(
             hass,
@@ -53,11 +54,16 @@ class YouTubeDataCoordinator(DataUpdateCoordinator):
             subscriptions_data = await self.hass.async_add_executor_job(
                 self._fetch_subscribed_channels
             )
+            # 추천 영상 가져오기 추가
+            recommended_data = await self.hass.async_add_executor_job(
+                self._fetch_recommended_videos
+            )
             
             self.subscriptions_data = subscriptions_data
+            self.recommended_data = recommended_data
             
-            # Mark cookies as valid if either data source succeeds
-            if subscriptions_data is not None or history_data is not None:
+            # Mark cookies as valid if any data source succeeds
+            if subscriptions_data is not None or history_data is not None or recommended_data is not None:
                 self.cookies_valid = True
                 _LOGGER.debug("Cookies are valid - data fetched successfully")
             
@@ -142,25 +148,6 @@ class YouTubeDataCoordinator(DataUpdateCoordinator):
             _LOGGER.warning("Failed to save cookies: %s", err)
 
         html = response.text
-        
-        # Debug: Uncomment below to save HTML for analysis
-        # This is useful for troubleshooting YouTube page structure changes
-        # try:
-        #     debug_path = "/config/youtube_history_debug.html"
-        #     with open(debug_path, 'w', encoding='utf-8') as f:
-        #         f.write(html)
-        #     
-        #     video_count = html.count('"videoRenderer"')
-        #     lockup_count = html.count('"lockupViewModel"')
-        #     rich_count = html.count('"richItemRenderer"')
-        #     
-        #     _LOGGER.info(
-        #         "HTML contains: %d videoRenderer, %d lockupViewModel, %d richItemRenderer",
-        #         video_count, lockup_count, rich_count
-        #     )
-        #     
-        # except Exception as err:
-        #     _LOGGER.warning("Failed to save debug HTML: %s", err)
 
         # Parse ytInitialData JSON
         try:
@@ -279,6 +266,94 @@ class YouTubeDataCoordinator(DataUpdateCoordinator):
         _LOGGER.error("No video found in history")
         return None
 
+    def _fetch_recommended_videos(self) -> list[dict[str, Any]] | None:
+        """Fetch recommended videos from YouTube (최대 3개).
+        
+        Returns:
+            List of dictionaries containing recommended video information or None
+        """
+        session = self._get_session()
+        if session is None:
+            _LOGGER.warning("Cannot fetch recommended - session creation failed")
+            return None
+
+        try:
+            response = session.get("https://www.youtube.com", timeout=10)
+            response.raise_for_status()
+        except requests.exceptions.RequestException as err:
+            _LOGGER.error("YouTube recommended request error: %s", err)
+            return None
+
+        html = response.text
+
+        try:
+            regex = r"var ytInitialData\s*=\s*({.*?});"
+            match = re.search(regex, html, re.DOTALL)
+            if not match:
+                _LOGGER.warning("Couldn't find ytInitialData in home page")
+                return None
+
+            json_str = match.group(1)
+            data = json.loads(json_str)
+
+            # YouTube 홈페이지 구조 파싱
+            tabs = data.get("contents", {}).get("twoColumnBrowseResultsRenderer", {}).get("tabs", [])
+            
+            videos = []
+            
+            # selected가 true인 탭 찾기
+            for tab in tabs:
+                tab_renderer = tab.get("tabRenderer", {})
+                if tab_renderer.get("selected"):
+                    # richGridRenderer 찾기
+                    rich_grid = tab_renderer.get("content", {}).get("richGridRenderer", {})
+                    grid_contents = rich_grid.get("contents", [])
+                    
+                    _LOGGER.info("Found richGridRenderer with %d items", len(grid_contents))
+                    
+                    for item in grid_contents:
+                        # richItemRenderer에서 비디오 찾기
+                        rich_item = item.get("richItemRenderer", {})
+                        content = rich_item.get("content", {})
+                        
+                        # lockupViewModel 체크
+                        if "lockupViewModel" in content:
+                            lockup = content["lockupViewModel"]
+                            
+                            # contentType이 VIDEO인지 확인
+                            content_type = lockup.get("contentType", "")
+                            if content_type == "LOCKUP_CONTENT_TYPE_VIDEO":
+                                video_info = self._extract_lockup_info(lockup)
+                                if video_info:
+                                    videos.append(video_info)
+                                    _LOGGER.debug("Found recommended video: %s", video_info.get("title"))
+                        
+                        # videoRenderer도 체크 (혹시 모를 경우 대비)
+                        elif "videoRenderer" in content:
+                            video_info = self._extract_video_renderer_info(content["videoRenderer"])
+                            if video_info:
+                                videos.append(video_info)
+                                _LOGGER.debug("Found recommended video (videoRenderer): %s", video_info.get("title"))
+                        
+                        # 3개 찾으면 종료
+                        if len(videos) >= 3:
+                            break
+                    
+                    # 탭을 찾았으면 루프 종료
+                    break
+
+            if videos:
+                _LOGGER.info("Successfully fetched %d recommended videos", len(videos))
+                return videos
+            else:
+                _LOGGER.warning("No recommended videos found")
+                return None
+
+        except (AttributeError, json.JSONDecodeError, KeyError) as err:
+            _LOGGER.error("Can't parse recommended videos JSON: %s", err)
+            _LOGGER.debug("Error details:", exc_info=True)
+            return None
+
     def _extract_lockup_info(self, lockup: dict) -> dict[str, Any] | None:
         """Extract information from lockupViewModel (new YouTube format).
         
@@ -307,19 +382,81 @@ class YouTubeDataCoordinator(DataUpdateCoordinator):
                 if parts:
                     channel = parts[0].get("text", {}).get("content", "N/A")
             
-            # Extract duration from thumbnail overlay
+            # Extract duration - 개선된 로직
             duration = "N/A"
+            is_live = False
+            
+            # 방법 1: contentImage > thumbnailViewModel > overlays에서 찾기
             thumbnail = lockup.get("contentImage", {}).get("thumbnailViewModel", {})
             overlays = thumbnail.get("overlays", [])
+            
             for overlay in overlays:
-                if "thumbnailBottomOverlayViewModel" in overlay:
+                # thumbnailOverlayBadgeViewModel 체크 (라이브 및 duration)
+                if "thumbnailOverlayBadgeViewModel" in overlay:
+                    badge_vm = overlay["thumbnailOverlayBadgeViewModel"]
+                    badges = badge_vm.get("thumbnailBadges", [])
+                    for badge in badges:
+                        if "thumbnailBadgeViewModel" in badge:
+                            badge_data = badge["thumbnailBadgeViewModel"]
+                            badge_text = badge_data.get("text", "")
+                            badge_style = badge_data.get("badgeStyle", "")
+                            
+                            # 라이브 영상 체크
+                            if badge_style == "THUMBNAIL_OVERLAY_BADGE_STYLE_LIVE" or badge_text in ["라이브", "LIVE"]:
+                                is_live = True
+                                duration = "LIVE"
+                                _LOGGER.debug("Found LIVE stream badge")
+                                break
+                            # 일반 duration
+                            elif badge_text and re.match(r'^\d{1,2}:\d{2}', badge_text):
+                                duration = badge_text
+                                _LOGGER.debug("Found duration in thumbnailBadgeViewModel: %s", duration)
+                                break
+                    if duration != "N/A":
+                        break
+                
+                # thumbnailOverlayTimeStatusRenderer 체크 (새로운 형식)
+                elif "thumbnailOverlayTimeStatusRenderer" in overlay:
+                    time_status = overlay["thumbnailOverlayTimeStatusRenderer"]
+                    text_obj = time_status.get("text", {})
+                    if "simpleText" in text_obj:
+                        duration = text_obj["simpleText"]
+                        _LOGGER.debug("Found duration in thumbnailOverlayTimeStatusRenderer: %s", duration)
+                        break
+                    elif "accessibility" in text_obj:
+                        duration = text_obj["accessibility"].get("accessibilityData", {}).get("label", "N/A")
+                        _LOGGER.debug("Found duration in accessibility: %s", duration)
+                        break
+                
+                # thumbnailBottomOverlayViewModel 체크 (기존 형식)
+                elif "thumbnailBottomOverlayViewModel" in overlay:
                     badges = overlay["thumbnailBottomOverlayViewModel"].get("badges", [])
                     for badge in badges:
                         if "thumbnailBadgeViewModel" in badge:
                             duration = badge["thumbnailBadgeViewModel"].get("text", "N/A")
+                            _LOGGER.debug("Found duration in thumbnailBadgeViewModel: %s", duration)
                             break
                     if duration != "N/A":
                         break
+            
+            # 방법 2: metadata에서 duration 찾기 (추가 시도)
+            if duration == "N/A":
+                for row in metadata_rows:
+                    parts = row.get("metadataParts", [])
+                    for part in parts:
+                        text = part.get("text", {}).get("content", "")
+                        # duration 형식 체크 (예: "10:23", "1:05:30")
+                        if re.match(r'^\d{1,2}:\d{2}(:\d{2})?$', text):
+                            duration = text
+                            _LOGGER.debug("Found duration in metadata: %s", duration)
+                            break
+                    if duration != "N/A":
+                        break
+            
+            # 디버깅: duration을 못 찾은 경우 전체 lockup 구조 로깅
+            if duration == "N/A":
+                _LOGGER.warning("Could not find duration for video: %s", title)
+                _LOGGER.debug("Lockup structure: %s", json.dumps(lockup, indent=2, ensure_ascii=False))
             
             output = {
                 "channel": channel,
@@ -330,11 +467,12 @@ class YouTubeDataCoordinator(DataUpdateCoordinator):
                 "url": f"https://www.youtube.com/watch?v={video_id}",
             }
 
-            _LOGGER.info("Extracted: %s by %s", title, channel)
+            _LOGGER.info("Extracted: %s by %s (duration: %s)", title, channel, duration)
             return output
             
         except Exception as err:
             _LOGGER.error("Failed to extract lockupViewModel: %s", err)
+            _LOGGER.debug("Error details:", exc_info=True)
             return None
 
     def _extract_video_renderer_info(self, video_renderer: dict) -> dict[str, Any] | None:

@@ -34,6 +34,10 @@ YouTube 영상 재생 시, 실제 시청 기록에서 정보를 가져오는 Hom
 그치만 후원 해주신다면 시간이 생길지도...?
 
 
+\+ \(25/12/02\) 유튜브 알고리즘에서 보여주는 추천 영상 3개를 가져 올수 있도록 추가 개발 하였습니다.
+대쉬보드 카드는 lovelace_example.txt 파일을 참고해서 적용하시면 됩니다. 
+
+
 [hacs-shield]: https://img.shields.io/badge/HACS-Custom-red.svg
 
 ---

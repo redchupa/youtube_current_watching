@@ -43,6 +43,7 @@ async def async_setup_entry(
         [
             YouTubeWatchingSensor(coordinator),
             YouTubeSubscriptionsSensor(coordinator),
+            YouTubeRecommendedSensor(coordinator),  # 추천 영상 센서 추가
         ],
         True,
     )
@@ -171,4 +172,74 @@ class YouTubeSubscriptionsSensor(CoordinatorEntity, SensorEntity):
     def available(self) -> bool:
         """Return if entity is available."""
         # Always available if cookies are valid
+        return self.coordinator.cookies_valid
+
+
+class YouTubeRecommendedSensor(CoordinatorEntity, SensorEntity):
+    """Representation of a YouTube Recommended Videos sensor."""
+
+    _attr_has_entity_name = True
+
+    def __init__(self, coordinator) -> None:
+        """Initialize the sensor.
+        
+        Args:
+            coordinator: Data coordinator instance
+        """
+        super().__init__(coordinator)
+        self._attr_name = "YouTube Recommended"
+        self._attr_unique_id = f"{DOMAIN}_recommended"
+        self._attr_icon = "mdi:youtube"
+
+    @property
+    def native_value(self) -> int | None:
+        """Return the state of the sensor (number of recommended videos)."""
+        if self.coordinator.recommended_data is None:
+            return 0
+        return len(self.coordinator.recommended_data)
+
+    @property
+    def native_unit_of_measurement(self) -> str:
+        """Return the unit of measurement."""
+        return "videos"
+
+    @property
+    def extra_state_attributes(self) -> dict[str, Any] | None:
+        """Return the state attributes."""
+        if self.coordinator.recommended_data is None or len(self.coordinator.recommended_data) == 0:
+            return {
+                "video_count": 0,
+                "videos": [],
+            }
+
+        videos = self.coordinator.recommended_data
+        
+        # 각 비디오 정보를 속성으로 저장
+        video_list = []
+        for idx, video in enumerate(videos[:3], 1):  # 최대 3개
+            video_list.append({
+                "position": idx,
+                ATTR_CHANNEL: video.get(ATTR_CHANNEL, "N/A"),
+                ATTR_TITLE: video.get(ATTR_TITLE, "N/A"),
+                ATTR_VIDEO_ID: video.get(ATTR_VIDEO_ID, "N/A"),
+                ATTR_THUMBNAIL: video.get(ATTR_THUMBNAIL, ""),
+                ATTR_DURATION: video.get(ATTR_DURATION, "N/A"),
+                ATTR_URL: video.get(ATTR_URL, ""),
+            })
+        
+        return {
+            "video_count": len(videos),
+            "videos": video_list,
+        }
+
+    @property
+    def entity_picture(self) -> str | None:
+        """Return the entity picture to use in the frontend (첫 번째 추천 영상 썸네일)."""
+        if self.coordinator.recommended_data is None or len(self.coordinator.recommended_data) == 0:
+            return None
+        return self.coordinator.recommended_data[0].get(ATTR_THUMBNAIL)
+
+    @property
+    def available(self) -> bool:
+        """Return if entity is available."""
         return self.coordinator.cookies_valid
