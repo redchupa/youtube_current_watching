@@ -12,7 +12,8 @@ CONF_TRACK_ALL = "track_all"  # Always track mode (ignore media player state)
 DEFAULT_COOKIES_PATH = "/config/youtube_cookies.txt"
 
 # Update interval in seconds
-SCAN_INTERVAL_SECONDS = 30
+SCAN_INTERVAL_SECONDS = 30  # 시청 기록과 구독 채널
+SCAN_INTERVAL_RECOMMENDED_SECONDS = 60  # 추천 영상 (1분)
 
 # Sensor attributes
 ATTR_CHANNEL = "channel"
