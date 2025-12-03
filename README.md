@@ -35,6 +35,7 @@ YouTube 영상 재생 시, 실제 시청 기록에서 정보를 가져오는 Hom
 
 
 \+ \(25/12/02\) 유튜브 알고리즘에서 보여주는 추천 영상 3개를 가져 올수 있도록 추가 개발 하였습니다.
+
 대쉬보드 카드는 lovelace_example.txt 파일을 참고해서 적용하시면 됩니다. 
 
 
@@ -96,6 +97,7 @@ YouTube Data API v3는 **실제 시청 기록 접근을 완벽하게 제공하�
 1. **확장 프로그램 설치**
    - Chrome 웹 스토어에서 [Get cookies.txt LOCALLY](https://chrome.google.com/webstore/detail/get-cookiestxt-locally/cclelndahbckbenkjhflpdbgdldlbecc) 설치
    - 확장 프로그램 관리에서 "시크릿 모드에서 허용" 활성화
+   - 쿠키를 추출 후 해당 브라우저 닫기 (Maybe 쿠키 중복 사용에 대한 보안 로직이 존재함)
 
 2. **시크릿 모드에서 YouTube 로그인**
    - 시크릿 창을 열고 [YouTube.com](https://youtube.com) 접속
@@ -557,6 +559,7 @@ MIT License
 ---
 
 **즐거운 스마트홈 되세요!**
+
 
 
 
