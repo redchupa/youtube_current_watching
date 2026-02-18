@@ -1,0 +1,24 @@
+type: grid
+cards:
+  - type: heading
+    heading_style: title
+    heading: 🎬 최근 시청한 유튜브 영상
+  - type: custom:button-card
+    entity: sensor.youtube_watching
+    show_entity_picture: true
+    entity_picture: |
+      [[[ return states['sensor.youtube_watching'].attributes.thumbnail ]]]
+    name: |
+      [[[ return states['sensor.youtube_watching'].attributes.title ]]]
+    label: |
+      [[[ return states['sensor.youtube_watching'].attributes.channel ]]]
+    show_label: true
+    tap_action:
+      action: url
+      url_path: |
+        [[[ return states['sensor.youtube_watching'].attributes.url ]]]
+    styles:
+      entity_picture:
+        - width: 90%
+        - height: 90%
+        - border-radius: 5px
